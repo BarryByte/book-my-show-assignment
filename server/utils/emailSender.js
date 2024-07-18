@@ -14,37 +14,35 @@ function replaceContent(content, creds) {
 
     return content;
 }
-async function EmailHelper(templateName, receiverEmail, creds) {
-    // console.log(templateName, receiverEmail, creds)
-    if (!templateName || !receiverEmail || !creds) {
-        console.error("Invalid input parameters.");
-        return;
-    }
+async function EmailHelper(templateName, reciverEmail, creds) {
+    // console.log(templateName, reciverEmail, creds)
     try {
+        const userMail = process.env.EMAIL_USER;
+        const userPass = process.env.EMAIL_PASS;
         const templatePath = path.join(__dirname, "email_templates", templateName);
         let content = await fs.promises.readFile(templatePath, "utf-8");
-        content = replaceContent(content, creds); 
         const emailDetails = {
-            to: receiverEmail,
-            from: 'abhay.23bcs10181@sst.scaler.com', // Change to your verified sender
+            to: reciverEmail,
+            from: process.env.EMAIL_USER, // Change to your verified sender
             subject: 'RESET OTP',
             text: `Hi ${creds.name} this your reset otp ${creds.otp}`,
-            html: content,
+            html: replaceContent(content, creds),
         }
         const transportDetails = {
-            host: 'smtp.sendgrid.net',
-            port: 587,
+            service: 'gmail',
+            secure: true,
+            port: 465,
             auth: {
-                user: "apikey",
-                pass: SENDGRID_API_KEY
+                user: userMail,
+                pass: userPass
             }
         }
 
         const transporter = nodemailer.createTransport(transportDetails);
         await transporter.sendMail((emailDetails))
-        console.log("Email sent successfully");
+        console.log("email sent")
     } catch (err) {
-        console.error("Failed to send email:", err);
+        console.log(err)
     }
 
 }
