@@ -114,7 +114,9 @@ const BookShow = () => {
 															]);
 														}
 													} else {
-														// Optionally, show a message that the seat is booked and cannot be selected.
+														message.error(
+															"This seat is already booked!"
+														);
 														console.log(
 															"This seat is already booked."
 														);
