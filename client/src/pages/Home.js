@@ -14,8 +14,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-
   const getData = async () => {
     try {
 

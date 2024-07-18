@@ -86,7 +86,8 @@ const Bookings = () => {
 												Amount:{" "}
 												<b>
 													Rs.
-													{booking.seats.length *
+													{booking.show.bookedSeats
+														.length *
 														booking.show
 															.ticketPrice}{" "}
 												</b>
